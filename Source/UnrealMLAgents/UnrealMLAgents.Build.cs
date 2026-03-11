@@ -40,6 +40,10 @@ public class UnrealMLAgents : ModuleRules
 
 		PublicDefinitions.Add("WIN32_LEAN_AND_MEAN");
 		PublicDefinitions.Add("NOMINMAX");
+
+		// 추가: gRPC가 직접 winsock2.h를 포함하기 전에 먼저 포함하도록 강제
+		// (winsock.h vs winsock2.h 충돌 방지)
+		PublicDefinitions.Add("_WINSOCKAPI_");
 	}
 
 	private UnrealMLAgentsPlatform.MLAgentsPlatform GetMLAgentsPlatformInstance(ReadOnlyTargetRules Target)

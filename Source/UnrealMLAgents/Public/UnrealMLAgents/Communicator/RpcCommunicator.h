@@ -20,6 +20,14 @@
 	#undef GetObject
 #endif
 
+// This should fix error C2589: ';': illegal token on right side of '::'
+// WinBase.h defines Yield as an empty macro (#define Yield()) for Win16 compatibility.
+// This conflicts with FPlatformProcess::Yield() in UE's FAAArrayQueue.h.
+// Only affects UnrealGame builds (UnrealEditor's SharedPCH cleans this up via HideWindowsPlatformTypes.h).
+#ifdef Yield
+    #undef Yield
+#endif
+
 #include "RpcCommunicator.generated.h"
 
 /**
