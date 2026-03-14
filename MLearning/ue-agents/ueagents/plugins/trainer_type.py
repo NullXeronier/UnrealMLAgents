@@ -14,6 +14,13 @@ from ueagents_envs import logging_util
 logger = logging_util.get_logger(__name__)
 
 
+def _get_entry_points(group_name: str):
+    entry_points = importlib_metadata.entry_points()
+    if hasattr(entry_points, "select"):
+        return list(entry_points.select(group=group_name))
+    return list(entry_points.get(group_name, []))
+
+
 def get_default_trainer_types() -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     The Trainers that mlagents-learn always uses:
@@ -43,15 +50,14 @@ def register_trainer_plugins() -> Tuple[Dict[str, Any], Dict[str, Any]]:
     Registers all Trainer plugins (including the default one),
     and evaluates them, and returns the list of all the Trainer implementations.
     """
-    if UE_AGENTS_TRAINER_TYPE not in importlib_metadata.entry_points():
+    entry_points = _get_entry_points(UE_AGENTS_TRAINER_TYPE)
+    if not entry_points:
         logger.warning(
             f"Unable to find any entry points for {UE_AGENTS_TRAINER_TYPE}, even the default ones. "
             "Uninstalling and reinstalling ml-agents via pip should resolve. "
             "Using default plugins for now."
         )
         return get_default_trainer_types()
-
-    entry_points = importlib_metadata.entry_points()[UE_AGENTS_TRAINER_TYPE]
 
     for entry_point in entry_points:
 

@@ -13,10 +13,19 @@ All credit for the foundational work goes to Unity's ML-Agents Toolkit team.
 
 ## Installation
 
-Install the `ueagents_envs` package with:
+Install the `ueagents_envs` package with `uv`:
 
 ```sh
-python -m pip install ueagents_envs
+uv venv --python 3.12
+.venv\Scripts\activate
+uv pip install pip setuptools wheel
+uv pip install ueagents_envs
+```
+
+For editable installs:
+
+```sh
+uv pip install -e .
 ```
 
 For more information on the Unreal ML-Agents Toolkit and how to instrument an Unreal scene with the Unreal ML-Agents SDK,

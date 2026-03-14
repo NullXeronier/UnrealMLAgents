@@ -27,7 +27,10 @@ Prerequisites
 
      .. code-block:: bash
 
-        pip install torch~=2.4.1 --index-url https://download.pytorch.org/whl/cu124
+            uv venv --python 3.12
+            .venv\Scripts\activate
+            uv pip install pip setuptools wheel
+            uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
 
 For those who wants to develop in C++, please follow the very good documentation from Unreal Engine.
 You need to install and configure one of the following IDEs:
@@ -104,19 +107,30 @@ are not familiar with virtual environments, you can find more information in the
       If you are not modifying the plugin or its Python packages, you can install the required Python dependencies directly
       from PyPI:
 
-      1. Ensure Python 3.10 is installed on your system.
-      2. Run the following command to install the package:
+      1. Ensure Python 3.10 or newer is installed on your system.
+      2. If you are using a CUDA-enabled GPU, install the PyTorch packages first using the wheel index that matches your CUDA runtime.
+         On Windows with Python 3.12, the following commands were validated with ``uv`` and CUDA 13.0:
 
          .. code-block:: bash
 
-            pip install ueagents
+            uv venv --python 3.12
+            .venv\Scripts\activate
+            uv pip install pip setuptools wheel
+            uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+
+      3. Install the package:
+
+         .. code-block:: bash
+
+            uv pip install ueagents
 
          This will automatically install `ueagents_envs` as a dependency.
 
       .. note::
 
          Installing the `ueagents` Python package involves installing other dependencies it relies on. To avoid issues
-         with conflicting versions, consider using a virtual environment. For detailed steps, refer to the
+         with conflicting versions, consider using a virtual environment. If you install PyTorch manually, install
+         `torch`, `torchvision`, and `torchaudio` from the same index so the wheel variants stay aligned. For detailed steps, refer to the
          :doc:`Virtual Environment Guide </intro/python-environment>`.
 
    .. tab-item:: PyPI (advanced)
@@ -124,22 +138,33 @@ are not familiar with virtual environments, you can find more information in the
       For this section, you first need to clone the repository to access the full source code.
       See above for more information on cloning the repository.
 
-      1. Navigate into `MLearning` directory within the previously cloned repository.
-      2. Install the Python packages in editable mode using the `-e` flag:
+      1. Create and activate a virtual environment.
+
+         .. code-block:: bash
+
+            uv venv --python 3.12
+            .venv\Scripts\activate
+            uv pip install pip setuptools wheel
+            uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+
+      2. Navigate into `MLearning` directory within the previously cloned repository.
+      3. Install the Python packages in editable mode using the `-e` flag:
 
          .. code-block:: bash
 
             cd MLearning/ue-agents-envs
-            pip install -e .
+            uv pip install -e .
 
             cd ../ue-agents
-            pip install -e .
+            uv pip install -e .
 
       .. note::
 
          Running pip with the `-e` flag will let you make changes to the Python files directly and have those reflected
          when you run `ue-agents-learn`. It is important to install these packages in this order as the `ue-agents` package
          depends on `ue-agents-envs`, and installing it in the other order will download `ue-agents-envs` from PyPI.
+         If a later install or reinstall replaces the CUDA wheels with default PyPI wheels, run
+         ``uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130`` again to realign them.
 
 .. _next-steps-installation:
 

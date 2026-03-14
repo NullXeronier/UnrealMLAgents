@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools==65.5.0", "wheel==0.45.1"]
+requires = ["setuptools>=65.5.0", "wheel>=0.45.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,13 +10,13 @@ authors = [
     { name = "Stephane Capponi" }
 ]
 license = { text = "Apache Software License" }
-requires-python = ">=3.10.1,<=3.10.12"
+requires-python = ">=3.10.1"
 dependencies = [
-    "gymnasium==0.28.1",
-    "numpy<1.24.0,>=1.23.5",
-    "grpcio==1.66.2",
-    "protobuf==3.20.3",
-    "grpcio-tools==1.46"
+    "gymnasium",
+    "numpy>=1.24.0",
+    "grpcio>=1.66.2",
+    "protobuf>=3.20.3,<7",
+    "grpcio-tools>=1.46"
 ]
 dynamic = ["version"]
 

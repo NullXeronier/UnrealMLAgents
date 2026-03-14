@@ -10,6 +10,13 @@ from ueagents_envs import logging_util
 logger = logging_util.get_logger(__name__)
 
 
+def _get_entry_points(group_name: str):
+    entry_points = importlib_metadata.entry_points()
+    if hasattr(entry_points, "select"):
+        return list(entry_points.select(group=group_name))
+    return list(entry_points.get(group_name, []))
+
+
 def get_default_stats_writers(run_options: RunOptions) -> List[StatsWriter]:
     """
     The StatsWriters that mlagents-learn always uses:
@@ -35,15 +42,14 @@ def register_stats_writer_plugins(run_options: RunOptions) -> List[StatsWriter]:
     and evaluates them, and returns the list of all the StatsWriter implementations.
     """
     all_stats_writers: List[StatsWriter] = []
-    if UE_AGENTS_STATS_WRITER not in importlib_metadata.entry_points():
+    entry_points = _get_entry_points(UE_AGENTS_STATS_WRITER)
+    if not entry_points:
         logger.warning(
             f"Unable to find any entry points for {UE_AGENTS_STATS_WRITER}, even the default ones. "
             "Uninstalling and reinstalling ue-agents via pip should resolve. "
             "Using default plugins for now."
         )
         return get_default_stats_writers(run_options)
-
-    entry_points = importlib_metadata.entry_points()[UE_AGENTS_STATS_WRITER]
 
     for entry_point in entry_points:
 

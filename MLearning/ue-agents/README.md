@@ -16,10 +16,24 @@ All credit for the foundational work goes to Unity's ML-Agents Toolkit team.
 
 ## Installation
 
-Install the `ueagents` package with:
+Install the `ueagents` package with `uv`:
 
 ```sh
-python -m pip install ueagents
+uv venv --python 3.12
+.venv\Scripts\activate
+uv pip install pip setuptools wheel
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+uv pip install ueagents
+```
+
+If you are developing from source, install `ueagents_envs` in editable mode first:
+
+```sh
+cd ../ue-agents-envs
+uv pip install -e .
+
+cd ../ue-agents
+uv pip install -e .
 ```
 
 ## Usage & More Information

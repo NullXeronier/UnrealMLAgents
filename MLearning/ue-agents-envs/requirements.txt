@@ -1,7 +1,7 @@
-gymnasium==0.28.1
-numpy<1.24.0,>=1.23.5
+gymnasium>=0.28.1
+numpy>=1.24.0
 
 # Install protobuf and grpcio
-grpcio==1.66.2
-protobuf==3.20.3
-grpcio-tools==1.46
+grpcio>=1.66.2
+protobuf>=3.20.3,<7
+grpcio-tools>=1.46

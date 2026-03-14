@@ -32,6 +32,30 @@ Check `Docs/README` for instructions on building an HTML version of the docs.
 We are actively working on Unreal-specific documentation, but for additional reference, Unity's ML-Agents Toolkit documentation
 remains a valuable resource.
 
+## Python Setup (uv)
+
+For Python package setup, use `uv` in a Python 3.12 virtual environment:
+
+```sh
+uv venv --python 3.12
+.venv\Scripts\activate
+uv pip install pip setuptools wheel
+uv pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
+uv pip install ueagents
+```
+
+If you are working from this repository source, install packages in order:
+
+```sh
+cd MLearning/ue-agents-envs
+uv pip install -e .
+
+cd ../ue-agents
+uv pip install -e .
+```
+
+For full installation details, see `Docs/intro/installation.rst`.
+
 ## Overview
 
 The **Unreal ML Agents Plugin** is a framework that allows Unreal Engine developers to train machine learning-based agents.
