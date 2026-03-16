@@ -4,6 +4,7 @@ from collections import defaultdict
 import json
 import attr
 import cattr
+import numpy as np
 
 from ueagents.torch_utils import torch
 from ueagents_envs.logging_util import get_logger
@@ -83,6 +84,19 @@ class GlobalTrainingStatus:
             raise TrainerError(
                 "Metadata not found, resuming from an incompatible version of ML-Agents."
             )
+        
+    def _to_json_safe(obj):
+        if isinstance(obj, dict):
+            return {k: _to_json_safe(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [_to_json_safe(v) for v in obj]
+        if isinstance(obj, tuple):
+            return [_to_json_safe(v) for v in obj]
+        if isinstance(obj, np.generic):
+            return obj.item()
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return obj
 
     @staticmethod
     def save_state(path: str) -> None:

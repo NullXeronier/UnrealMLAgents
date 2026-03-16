@@ -129,7 +129,7 @@ class RLTrainer(Trainer):
         if len(rewards) == 0:
             return None
         else:
-            return sum(rewards) / len(rewards)
+            return float(sum(rewards) / len(rewards))
 
     @timed
     def _checkpoint(self) -> ModelCheckpoint:
